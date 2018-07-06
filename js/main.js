@@ -159,12 +159,36 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
+// Create a Picture element to wrap pictures on it
+  const picSize = '(min-width: 0px) 350px,(min-width: 650px) 600px, (min-width: 901px) 800px';
+
+  const picture = document.createElement('picture');
+  picture.className = 'restaurant-img';
+  
+  const source = document.createElement('source');
+  source.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant));
+  source.setAttribute('media', picSize);
+
+
+  const image = document.createElement('img');
+  image.setAttribute('alt', `picture of ${restaurant.name} restaurant`);
+
+  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  picture.appendChild(source);
+  picture.appendChild(image);
+
+  /*
+  picture.innerHTML = `<source srcset="${DBHelper.imageSourceForRestaurant(restaurant)}" media="${picSize}></source>
+                      <img class="restaurant-img" src="${DBHelper.imageUrlForRestaurant(restaurant)}" alt="${restaurant.alt}">`;
+  */
+                      /*
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.setAttribute('alt', `an image of the restaurant`);
+  */
 
-  li.append(image);
+  li.append(picture);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
@@ -180,6 +204,8 @@ createRestaurantHTML = (restaurant) => {
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
+  more.setAttribute('role', 'button');
+  more.setAttribute('aria-label', `${restaurant.name}. View details`);
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more);
 
