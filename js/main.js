@@ -160,11 +160,11 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
 // Create a Picture element to wrap pictures on it
-  const picSize = '(min-width: 0px) 350px,(min-width: 650px) 600px, (min-width: 901px) 800px';
+  const picSize = '(min-width: 0px) 1x,(min-width: 651px) 2x';
 
   const picture = document.createElement('picture');
   picture.className = 'restaurant-img';
-  
+
   const source = document.createElement('source');
   source.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant));
   source.setAttribute('media', picSize);
@@ -172,6 +172,8 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.setAttribute('alt', `picture of ${restaurant.name} restaurant`);
+  image.className = 'restaurant-img';
+
 
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   picture.appendChild(source);
