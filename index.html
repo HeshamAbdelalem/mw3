@@ -14,7 +14,7 @@
   <header>
     <nav>
       <h1>
-        <a href="/">Restaurant Reviews</a>
+        <a href="/" aria-label="restaurant reviews website homepage">Restaurant Reviews</a>
       </h1>
     </nav>
   </header>
@@ -26,10 +26,10 @@
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="select neighborhoods">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="select cuisines">
           <option value="all">All Cuisines</option>
         </select>
       </div>
@@ -51,6 +51,7 @@
       <strong>Restaurant Reviews</strong>
     </a> All Rights Reserved.
   </footer>
+  <script src="js/register.js"></script>
 
 </body>
 

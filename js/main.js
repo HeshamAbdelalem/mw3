@@ -74,10 +74,10 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
  */
 initMap = () => {
   self.newMap = L.map('map', {
-        center: [40.722216, -73.987501],
-        zoom: 12,
-        scrollWheelZoom: false
-      });
+    center: [40.722216, -73.987501],
+    zoom: 12,
+    scrollWheelZoom: false
+  });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
     mapboxToken: 'pk.eyJ1IjoiaGVzaGFtYWJkZWxhbGVtIiwiYSI6ImNqaXMyNGNicTFqZHgza3FzanQ1cGw4bTAifQ.1X3DaAYxKMNEPux9OxzhdA',
     maxZoom: 18,
@@ -159,6 +159,18 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
+  const image = document.createElement('img');
+
+  const imgurlbase = DBHelper.imageUrlForRestaurant(restaurant);
+  const imgparts = imgurlbase.split('.');
+  const imgurl1x = imgparts[0] + '_1x.' + imgparts[1];
+  const imgurl2x = imgparts[0] + '_2x.' + imgparts[1];
+  image.srcset = `${imgurl1x} 500w, ${imgurl2x} 800w`;
+  image.setAttribute('alt', `an image of ${restaurant.name}`);
+
+  li.append(image);
+
+  /*
 // Create a Picture element to wrap pictures on it
   const picSize = '(min-width: 0px) 1x,(min-width: 651px) 2x';
 
@@ -178,19 +190,20 @@ createRestaurantHTML = (restaurant) => {
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   picture.appendChild(source);
   picture.appendChild(image);
-
+*/
   /*
   picture.innerHTML = `<source srcset="${DBHelper.imageSourceForRestaurant(restaurant)}" media="${picSize}></source>
-                      <img class="restaurant-img" src="${DBHelper.imageUrlForRestaurant(restaurant)}" alt="${restaurant.alt}">`;
-  */
-                      /*
+                      <img class="restaurant-img" src="${DBHelper.imageUrlForRestaurant(restaurant)}" alt="
+                      {restaurant.alt}">`;
+   li.append(picture);
+                      */
+  /*
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.setAttribute('alt', `an image of the restaurant`);
   */
 
-  li.append(picture);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
@@ -222,6 +235,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
     marker.on("click", onClick);
+
     function onClick() {
       window.location.href = marker.options.url;
     }
@@ -239,4 +253,3 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } */
-

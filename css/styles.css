@@ -317,7 +317,7 @@ nav h1 a {
   font-size: 1.1em;
   margin: 10px 0px;
   max-width: 100%;
-  
+
 }
 
 #restaurant-cuisine {
@@ -372,12 +372,12 @@ nav h1 a {
   border-radius: 20px 0 20px 0;
 }
 
-#reviews-list h3 {
+#reviews-list .review-name {
   color: white;
   padding: 15px 30px;
   margin-bottom: 0;
-  background-color: #252831; 
-  letter-spacing: 1.2px;
+  background-color: #252831;
+  letter-spacing: 1.1px;
 }
 
 #reviews-list .rating-date {
@@ -425,8 +425,8 @@ nav h1 a {
     width: 90%;
     margin: 5px auto;
   }
-  #restaurants-list li {  
-    max-width: 100%; 
+  #restaurants-list li {
+    max-width: 100%;
   }
 }
 
@@ -435,7 +435,7 @@ nav h1 a {
     font-size: 1.1em;
   }
   .filter-options select {
-    min-width: 320px; 
+    min-width: 320px;
     max-width: 70%;
   }
   #restaurants-list li {
