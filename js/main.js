@@ -162,47 +162,16 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
 
   const imgurlbase = DBHelper.imageUrlForRestaurant(restaurant);
-  const imgparts = imgurlbase.split('.');
+  image.className = 'restaurant-img';
+  image.src = imgurlbase + '.jpg';
+  image.setAttribute('alt', `an image of ${restaurant.name}`);
+  /*const imgparts = imgurlbase.split('.');
   const imgurl1x = imgparts[0] + '_1x.' + imgparts[1];
   const imgurl2x = imgparts[0] + '_2x.' + imgparts[1];
   image.srcset = `${imgurl1x} 500w, ${imgurl2x} 800w`;
-  image.setAttribute('alt', `an image of ${restaurant.name}`);
-
+  */
   li.append(image);
 
-  /*
-// Create a Picture element to wrap pictures on it
-  const picSize = '(min-width: 0px) 1x,(min-width: 651px) 2x';
-
-  const picture = document.createElement('picture');
-  picture.className = 'restaurant-img';
-
-  const source = document.createElement('source');
-  source.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant));
-  source.setAttribute('media', picSize);
-
-
-  const image = document.createElement('img');
-  image.setAttribute('alt', `picture of ${restaurant.name} restaurant`);
-  image.className = 'restaurant-img';
-
-
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  picture.appendChild(source);
-  picture.appendChild(image);
-*/
-  /*
-  picture.innerHTML = `<source srcset="${DBHelper.imageSourceForRestaurant(restaurant)}" media="${picSize}></source>
-                      <img class="restaurant-img" src="${DBHelper.imageUrlForRestaurant(restaurant)}" alt="
-                      {restaurant.alt}">`;
-   li.append(picture);
-                      */
-  /*
-  const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.setAttribute('alt', `an image of the restaurant`);
-  */
 
 
   const name = document.createElement('h1');
