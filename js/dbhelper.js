@@ -10,7 +10,7 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     //const port = 8888; // Change this to your server port
-    return 'http://localhost:1337/restaurants';
+    return 'http://localhost:1337/restaurants/';
   }
 
   /**
@@ -18,14 +18,19 @@ class DBHelper {
    */
   static fetchRestaurants(callback) {
 
-    let fetchURL = DBHelper.DATABASE_URL;
-    fetch(fetchURL, {method: "GET"}).then(response => {
-      response.json().then(restaurants => {
-        callback(null, restaurants);
-      });
-    }).catch(error => {
-      callback(`Request failed. Returned ${error}`, null);
+    let header = new Headers({
+      'Content-Type': 'application/json'
     });
+    let fetchURL = DBHelper.DATABASE_URL;
+
+    fetch(fetchURL, { method: "GET",headers: header})
+        .then(response => {
+          response.json().then(restaurants => {
+           callback(null, restaurants);
+        });
+       }).catch(error => {
+      callback(`Request failed. Returned ${error}`, null);
+     });
 
 
     /*
@@ -170,14 +175,14 @@ class DBHelper {
   /**
    * Map marker for a restaurant.
    */
-   static mapMarkerForRestaurant(restaurant, map) {
+  static mapMarkerForRestaurant(restaurant, map) {
     // https://leafletjs.com/reference-1.3.0.html#marker
-    const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng],
-      {title: restaurant.name,
+    const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng], {
+      title: restaurant.name,
       alt: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant)
-      });
-      marker.addTo(newMap);
+    });
+    marker.addTo(newMap);
     return marker;
   }
   /* static mapMarkerForRestaurant(restaurant, map) {
@@ -192,4 +197,3 @@ class DBHelper {
   } */
 
 }
-
