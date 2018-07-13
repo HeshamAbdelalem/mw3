@@ -158,10 +158,8 @@ createRestaurantHTML = (restaurant) => {
   const imgurl1x = imgparts[0] + '_1x.jpg';
   const imgurl2x = imgparts[0] + '_2x.jpg';
   //image.src = "/img/"+ restaurant.id;
-  //image.setAttribute('srcset', "/img/"+ restaurant.id +"-500w.jpg 500w, /img/"+ restaurant.id +"-800w.jpg 800w");
-
-  image.srcset = `${imgurl1x} 500w, ${imgurl2x} 800w`;
-
+  image.setAttribute('srcset', "/img/"+ restaurant.id +  "_1x.jpg 500w, /img/"+ restaurant.id + "_2x.jpg 800w");
+  //image.srcset = `${imgurl1x} 500w, ${imgurl2x} 800w`; // << didn't work
   li.append(image);
 
 
