@@ -227,7 +227,7 @@ nav h1 a {
   box-shadow: 2px 2px 3px rgb(0, 0, 0, 0.2);
 }
 
-#restaurants-list li h1 {
+#restaurants-list li h2 {
   color: #f18200;
   font-family: Arial, sans-serif;
   font-size: 14pt;
