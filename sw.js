@@ -1,4 +1,3 @@
-/* jshint esversion:6 */
 let staticCacheID = 'restaurant-static-cache-v1';
 
 self.addEventListener('install', event => {

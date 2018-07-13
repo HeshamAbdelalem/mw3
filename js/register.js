@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').then(function (reg) {
         console.log('service worker registered');
@@ -9,3 +7,4 @@ if ('serviceWorker' in navigator) {
 } else {
     console.log('serviceworker are not supported');
 }
+ 
