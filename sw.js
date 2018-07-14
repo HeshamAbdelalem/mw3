@@ -1,3 +1,5 @@
+import idb from 'idb';
+
 let staticCacheID = 'restaurant-static-cache-v1';
 
 self.addEventListener('install', event => {
@@ -6,6 +8,8 @@ self.addEventListener('install', event => {
             return cache.addAll([
                 "/",
                 "/index.html",
+                "/icon512.png",
+                "/manifest.json",
                 "/restaurant.html",
                 "/css/styles.css",
                 "/data/restaurants.json",
@@ -15,26 +19,26 @@ self.addEventListener('install', event => {
                 "/js/restaurant_info.js",
                 "/js/register.js",
                 "/img/",
-                "/img/1_1x.jpg",
-                "/img/1_2x.jpg",
-                "/img/2_1x.jpg",
-                "/img/2_2x.jpg",
-                "/img/3_1x.jpg",
-                "/img/3_1x.jpg",
-                "/img/4_1x.jpg",
-                "/img/4_2x.jpg",
-                "/img/5_1x.jpg",
-                "/img/5_2x.jpg",
-                "/img/6_1x.jpg",
-                "/img/6_2x.jpg",
-                "/img/7_1x.jpg",
-                "/img/7_2x.jpg",
-                "/img/8_1x.jpg",
-                "/img/8_2x.jpg",
-                "/img/9_1x.jpg",
-                "/img/9_2x.jpg",
-                "/img/10_1x.jpg",
-                "/img/10_2x.jpg",
+                "/img/1_2x.webp",
+                "/img/1_1x.webp",
+                "/img/2_1x.webp",
+                "/img/2_2x.webp",
+                "/img/3_1x.webp",
+                "/img/3_1x.webp",
+                "/img/4_1x.webp",
+                "/img/4_2x.webp",
+                "/img/5_1x.webp",
+                "/img/5_2x.webp",
+                "/img/6_1x.webp",
+                "/img/6_2x.webp",
+                "/img/7_1x.webp",
+                "/img/7_2x.webp",
+                "/img/8_1x.webp",
+                "/img/8_2x.webp",
+                "/img/9_1x.webp",
+                "/img/9_2x.webp",
+                "/img/10_1x.webp",
+                "/img/10_2x.webp",
 
             ]).catch(error => {
                 console.log("caches failed because " + error);
@@ -65,7 +69,7 @@ self.addEventListener('fetch', event => {
                     });
                 }).catch(error => {
                     if (event.request.url.indexOf > -1) {
-                        return caches.match('/img/*.jpg');
+                        return caches.match('/img/*.webp');
                     }
                     return new Response('The App cannot reach internet', ({
                         status: 404,
@@ -76,3 +80,4 @@ self.addEventListener('fetch', event => {
         })
     );
 });
+
