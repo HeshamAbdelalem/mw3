@@ -1,0 +1,16 @@
+
+{
+    "short_name": "Restaurants",
+    "name": "Restaurant Reviews Project for Udacity MWS Nanodegree",
+    "icons": [
+      {
+        "src": "icon512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+       }
+    ],
+    "start_url": "index.html",
+    "background_color": "#fff",
+    "theme_color": "#252831",
+    "display": "fullscreen"
+}
