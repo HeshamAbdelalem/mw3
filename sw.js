@@ -1,5 +1,3 @@
-import idb from 'idb';
-
 let staticCacheID = 'restaurant-static-cache-v1';
 
 self.addEventListener('install', event => {
@@ -18,6 +16,8 @@ self.addEventListener('install', event => {
                 "/js/main.js",
                 "/js/restaurant_info.js",
                 "/js/register.js",
+                "/js/idb-library.js",
+                "/js/idb.js",
                 "/img/",
                 "/img/1_2x.webp",
                 "/img/1_1x.webp",
