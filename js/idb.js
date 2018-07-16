@@ -1,4 +1,3 @@
-
 function openDatabase() {
   if (!navigator.serviceWorker) {
     return Promise.resolve();
