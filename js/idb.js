@@ -1,58 +1,57 @@
-openDatabase()
-  .then( addRestaurantsToCache() )
-  .then( showCachedRestaurants() )
-  .then( showCachedRestaurants() )
-  .catch((err) => console.log(`there is an  ${err}`) );
 
 function openDatabase() {
   if (!navigator.serviceWorker) {
     return Promise.resolve();
   }
   return idb.open('restaurantsDB', 1, (upgradeDb) => {
-    let store = upgradeDb.createObjectStore('restaurant', { keyPath: 'id' });
+    let store = upgradeDb.createObjectStore('restaurant-review', {
+      keyPath: 'id'
+    });
   });
 }
 
+
 function addRestaurantsToCache(restaurants) {
-  openDatabase().then( (db) => {
+  openDatabase().then((db) => {
     if (!db) return;
 
-    let tx = db.transaction('restaurant', 'readwrite');
-    let store = tx.objectStore('restaurant');
+    let tx = db.transaction('restaurant-review', 'readwrite');
+    let store = tx.objectStore('restaurant-review');
 
-    if(restaurants.length == undefined){
-    	store.put(restaurants);
-    }else{
-    restaurants.forEach( (restaurant) => {
+    if (restaurants.length === undefined) {
       store.put(restaurants);
-    });
-	}
+    } else {
+      restaurants.forEach((restaurant) => {
+        store.put(restaurant);
+      });
+    }
     return tx.complete;
   });
 }
 
 
 function showCachedRestaurants() {
-  return openDatabase().then( (db) => {
-    let tx = db.transaction('restaurants');
-    let store = tx.objectStore('restaurants');
+  return openDatabase().then((db) => {
+    let tx = db.transaction('restaurant-review');
+    let store = tx.objectStore('restaurant-review');
     return store.getAll();
 
-  }).then( (restaurants) => {
+  }).then((restaurants) => {
     return restaurants;
   });
 }
 
 
 function showCachedRestaurant(id) {
-  return openDatabase().then( (db) => {
-    let tx = db.transaction('restaurant');
-    let store = tx.objectStore('restaurant');
+  return openDatabase().then((db) => {
+    let tx = db.transaction('restaurant-review');
+    let store = tx.objectStore('restaurant-review');
     id = parseInt(id);
 
     return store.get(id);
-  }).then( (restaurant) => {
+  }).then((restaurant) => {
     console.log(restaurant);
     return restaurant;
   });
 }
+openDatabase();
