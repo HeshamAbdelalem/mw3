@@ -9,6 +9,26 @@ function openDatabase() {
   });
 }
 
+function openDatabase() {
+  if (!navigator.serviceWorker) {
+    return Promise.resolve();
+  }
+  return idb.open('restaurantsDB', 2, (upgradeDb) => {
+    switch (upgradeDb.oldVersion) {
+      case 0:
+        upgradeDb.createObjectStore('restaurants', {
+          keyPath: 'id'
+        });
+      case 1: 
+        const reviewsStore = upgradeDb.createObjectStore('reviews',{
+          keypath: 'id'
+        });
+        reviewsStore.createIndex('restaurant', 'restaurant_id');  
+    }
+  });
+}
+
+
 
 function addRestaurantsToCache(restaurants) {
   openDatabase().then((db) => {

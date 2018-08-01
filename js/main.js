@@ -164,9 +164,25 @@ createRestaurantHTML = (restaurant) => {
 
 
 
+
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
+
+  const favourite = document.createElement('button');
+  favourite.innerHTML = '❤';
+  favourite.classList.add("fav_btn");
+/*
+  favourite.onClick = () => {
+    const isFavNow = restaurant.is_favourite;
+    DBHelper.updateFavouriteStatus(restaurant.id, isFavNow);
+    restaurant.is_favourite = !restaurant.is_favourite;
+    changeFavElementClass(favourite, restaurant.is_favourite);
+  };
+
+  changeFavElementClass(favourite, restaurant.is_favourite);
+ */
+  li.append(favourite);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;

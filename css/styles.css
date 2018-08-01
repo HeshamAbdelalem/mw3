@@ -239,6 +239,22 @@ nav h1 a {
   padding: 0 15px;
 }
 
+#restaurants-list .fav_btn {
+    background-color: white;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.8em;
+    border: 2px solid darkgray;
+    margin: 10px;
+    outline: none;
+}
+
+#restaurants-list .fav_btn:hover {
+    box-shadow: 2px 1px 2px gray,
+              -1px -1px 2px gray;
+}
+
 #restaurants-list p {
   margin: 0;
   font-size: 11pt;
