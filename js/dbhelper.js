@@ -3,24 +3,57 @@
  */
 class DBHelper {
 
-   /**
+  /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
     const port = 1337; // Change this to your server port
-    return `http://localhost:${port}/restaurants`;
+    return `http://localhost:${port}/`;
   }
+
 
   /**
    * Fetch all restaurants.
    */
+
+  static dbPromise() {
+    return idb.open('db', 2, function(upgradeDb) {
+      switch (upgradeDb.oldVersion) {
+        case 0:
+          upgradeDb.createObjectStore('restaurants', {
+            keyPath: 'id'
+          });
+        case 1:
+          const reviewsStore = upgradeDb.createObjectStore('reviews', {
+            keyPath: 'id'
+          });
+          reviewsStore.createIndex('restaurant', 'restaurant_id');
+      }
+    });
+  }
+
+  static fetchRestaurantsIdb() {
+    return this.dbPromise()
+      .then(db => {
+        const tx = db.transaction('restaurants');
+        const restaurantStore = tx.objectStore('restaurants');
+        return restaurantStore.getAll();
+      })
+      .then(restaurants => {
+        if (restaurants.length !== 0) {
+          return Promise.resolve(restaurants);
+        }
+        return this.fetchAndCacheRestaurants();
+      });
+  }
+
   static fetchRestaurants(callback) {
 
     let header = new Headers({
       'Content-Type': 'application/json'
     });
-    let fetchURL = DBHelper.DATABASE_URL;
+    let fetchURL = DBHelper.DATABASE_URL + "restaurants" ;
 
     fetch(fetchURL, { method: "GET",headers: header})
         .then(response => {
@@ -168,4 +201,10 @@ class DBHelper {
     return marker;
   }
 
+
+  /*
+    * The Review Section
+  */
+
 }
+

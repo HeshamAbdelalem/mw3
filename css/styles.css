@@ -251,8 +251,18 @@ nav h1 a {
 }
 
 #restaurants-list .fav_btn:hover {
-    box-shadow: 2px 1px 2px gray,
-              -1px -1px 2px gray;
+    box-shadow: 2px 1px 5px #575757,
+              -1px -1px 5px #575757;
+}
+
+.is_fav {
+  color: red;
+  box-shadow: 2px 1px 5px #575757,
+              -1px -1px 5px #575757;
+}
+
+.not_fav {
+  color: black;
 }
 
 #restaurants-list p {

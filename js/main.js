@@ -158,7 +158,7 @@ createRestaurantHTML = (restaurant) => {
   const imgurl1x = imgparts[0] + '_1x.webp';
   const imgurl2x = imgparts[0] + '_2x.webp';
   //image.src = "/img/"+ restaurant.id;
-  image.setAttribute('srcset', "/img/"+ restaurant.id +  "_1x.webp 500w, /img/"+ restaurant.id + "_2x.webp 800w");
+  image.setAttribute('srcset', "/img/" + restaurant.id + "_1x.webp 500w, /img/" + restaurant.id + "_2x.webp 800w");
   //image.srcset = `${imgurl1x} 500w, ${imgurl2x} 800w`; // << didn't work
   li.append(image);
 
@@ -169,20 +169,50 @@ createRestaurantHTML = (restaurant) => {
   name.innerHTML = restaurant.name;
   li.append(name);
 
-  const favourite = document.createElement('button');
-  favourite.innerHTML = '❤';
-  favourite.classList.add("fav_btn");
-/*
-  favourite.onClick = () => {
-    const isFavNow = restaurant.is_favourite;
-    DBHelper.updateFavouriteStatus(restaurant.id, isFavNow);
-    restaurant.is_favourite = !restaurant.is_favourite;
-    changeFavElementClass(favourite, restaurant.is_favourite);
+  const favorite = document.createElement('button');
+  favorite.innerHTML = '❤';
+  favorite.classList.add('fav_btn');
+
+  favorite.addEventListener('click', () => {
+    let isfavNow = !restaurant.is_favorite;
+    updateFavoriteStatus(restaurant.id, isfavNow);
+    restaurant.is_favorite = !restaurant.is_favorite;
+    changeFavClass(favorite, restaurant.is_favorite);
+  });
+    //changeFavClass(favorite, restaurant.is_favorite);
+
+
+  li.append(favorite);
+
+
+  changeFavClass = (el, fav) => {
+    if (!fav) {
+      el.classList.remove('is_fav');
+      el.classList.add('not_fav');
+      el.setAttribute('aria-label', 'mark as favorite');
+
+    } else {
+      console.log('added to favorite');
+      el.classList.remove('not_fav');
+      el.classList.add('is_fav');
+      el.setAttribute('aria-label', 'remove as favorite');
+    }
   };
 
-  changeFavElementClass(favourite, restaurant.is_favourite);
- */
-  li.append(favourite);
+  updateFavoriteStatus = (restaurantId, favStatus) => {
+    console.log('changing status to: ', favStatus);
+
+    fetch(`http://localhost:1337/restaurants/${restaurantId}/?is_favorite=${favStatus}`, {
+        method: 'PUT'
+      })
+      .then(() => {
+        console.log('changed');
+      });
+
+  };
+
+
+
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;

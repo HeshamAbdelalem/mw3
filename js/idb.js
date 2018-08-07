@@ -19,11 +19,11 @@ function openDatabase() {
         upgradeDb.createObjectStore('restaurants', {
           keyPath: 'id'
         });
-      case 1: 
+      case 1:
         const reviewsStore = upgradeDb.createObjectStore('reviews',{
           keypath: 'id'
         });
-        reviewsStore.createIndex('restaurant', 'restaurant_id');  
+        reviewsStore.createIndex('restaurant', 'restaurant_id');
     }
   });
 }
@@ -73,4 +73,17 @@ function showCachedRestaurant(id) {
     return restaurant;
   });
 }
+/*
+function showFavRestaurants() {
+  return openDatabase().then((db) => {
+    let tx = db.transaction('restaurantsfav', 'readwrite');
+    let store = tx.objectStore('restaurantsfav');
+
+    return store.get(restaurantId)
+    .then(restaurant => {
+      return store.put(restaurant);
+    });
+  });
+}
+*/
 openDatabase();
