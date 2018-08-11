@@ -145,14 +145,11 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-
   const image = document.createElement('img');
-
   const imgurlbase = DBHelper.imageUrlForRestaurant(restaurant);
   image.className = 'restaurant-img';
 
   //image.src = imgurlbase + '.webp';
-
   image.setAttribute('alt', `an image of ${restaurant.name}`);
   const imgparts = imgurlbase.split('.');
   const imgurl1x = imgparts[0] + '_1x.webp';
@@ -169,15 +166,27 @@ createRestaurantHTML = (restaurant) => {
   name.innerHTML = restaurant.name;
   li.append(name);
 
+
+  // -------------------Start Favorite Button-------------------
   const favorite = document.createElement('button');
   favorite.innerHTML = '❤';
   favorite.classList.add('fav_btn');
 
   favorite.addEventListener('click', () => {
-    let isfavNow = !restaurant.is_favorite;
-    updateFavoriteStatus(restaurant.id, isfavNow);
-    restaurant.is_favorite = !restaurant.is_favorite;
+
+    let isfavNow = false;
+
+    if (restaurant.is_favorite == "false" || restaurant.is_favorite == false) {
+      isfavNow = true;
+    } else {
+      isfavNow = false;
+    }
+    DBHelper.updateFavoriteStatus(restaurant.id, isfavNow);
+    restaurant.is_favorite = isfavNow;
     changeFavClass(favorite, restaurant.is_favorite);
+    /*
+*/
+
   });
     //changeFavClass(favorite, restaurant.is_favorite);
 
@@ -199,17 +208,8 @@ createRestaurantHTML = (restaurant) => {
     }
   };
 
-  updateFavoriteStatus = (restaurantId, favStatus) => {
-    console.log('changing status to: ', favStatus);
 
-    fetch(`http://localhost:1337/restaurants/${restaurantId}/?is_favorite=${favStatus}`, {
-        method: 'PUT'
-      })
-      .then(() => {
-        console.log('changed');
-      });
-
-  };
+  // -------------------Start Favorite Button-------------------
 
 
 

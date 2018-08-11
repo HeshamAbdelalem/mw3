@@ -17,37 +17,6 @@ class DBHelper {
    * Fetch all restaurants.
    */
 
-  static dbPromise() {
-    return idb.open('db', 2, function(upgradeDb) {
-      switch (upgradeDb.oldVersion) {
-        case 0:
-          upgradeDb.createObjectStore('restaurants', {
-            keyPath: 'id'
-          });
-        case 1:
-          const reviewsStore = upgradeDb.createObjectStore('reviews', {
-            keyPath: 'id'
-          });
-          reviewsStore.createIndex('restaurant', 'restaurant_id');
-      }
-    });
-  }
-
-  static fetchRestaurantsIdb() {
-    return this.dbPromise()
-      .then(db => {
-        const tx = db.transaction('restaurants');
-        const restaurantStore = tx.objectStore('restaurants');
-        return restaurantStore.getAll();
-      })
-      .then(restaurants => {
-        if (restaurants.length !== 0) {
-          return Promise.resolve(restaurants);
-        }
-        return this.fetchAndCacheRestaurants();
-      });
-  }
-
   static fetchRestaurants(callback) {
 
     let header = new Headers({
@@ -199,6 +168,18 @@ class DBHelper {
     });
     marker.addTo(newMap);
     return marker;
+  }
+
+
+  static updateFavoriteStatus(restaurantId, favStatus){
+    console.log('Fav Status is: ', favStatus, ' & Restaurant ID is : ', restaurantId );
+
+    fetch(`http://localhost:1337/restaurants/${restaurantId}/?is_favorite=${favStatus}`, {
+        method: 'PUT'
+      })
+      .then(() => {
+        console.log('changed');
+      });
   }
 
 
