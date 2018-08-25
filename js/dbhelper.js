@@ -17,22 +17,52 @@ class DBHelper {
    * Fetch all restaurants.
    */
 
-  static fetchRestaurants(callback) {
-
-    let header = new Headers({
-      'Content-Type': 'application/json'
+  static dbPromise() {
+    return idb.open('db', 2, function(upgradeDb) {
+      switch (upgradeDb.oldVersion) {
+        case 0:
+          upgradeDb.createObjectStore('restaurants', {
+            keyPath: 'id'
+          });
+        case 1:
+          const reviewsStore = upgradeDb.createObjectStore('reviews', {
+            keyPath: 'id'
+          });
+          reviewsStore.createIndex('restaurant', 'restaurant_id');
+      }
     });
-    let fetchURL = DBHelper.DATABASE_URL + "restaurants" ;
-
-    fetch(fetchURL, { method: "GET",headers: header})
-        .then(response => {
-          response.json().then(restaurants => {
-           callback(null, restaurants);
-        });
-       }).catch(error => {
-      callback(`Request failed. Returned ${error}`, null);
-     });
   }
+
+  static fetchRestaurants() {
+    return this.dbPromise()
+    .then(db => {
+      const tx = db.transaction('restaurants');
+      const restaurantStore = tx.objectStore('restaurants');
+      return restaurantStore.getAll();
+    })
+    .then(restaurants => {
+      if (restaurants.length !== 0) {
+        return Promise.resolve(restaurants);
+      }
+      return this.fetchAndCacheRestaurants();
+    });
+  }
+
+  static fetchAndCacheRestaurants() {
+    return fetch(DBHelper.DATABASE_URL + 'restaurants')
+    .then(response => response.json())
+    .then(restaurants => {
+      return this.dbPromise()
+      .then(db => {
+        const tx = db.transaction('restaurants', 'readwrite');
+        const restaurantStore = tx.objectStore('restaurants');
+        restaurants.forEach(restaurant => restaurantStore.put(restaurant));
+
+        return tx.complete.then(() => Promise.resolve(restaurants));
+      });
+    });
+  }
+
 
   /**
    * Fetch a restaurant by its ID.
