@@ -37,7 +37,7 @@
 
   <!-- Beginning main -->
   <main id="maincontent">
-      <!-- Beginning restaurant -->
+    <!-- Beginning restaurant -->
     <section id="restaurant-container">
       <h2 id="restaurant-name"></h2>
       <img id="restaurant-img">
@@ -50,9 +50,37 @@
       <div id="map"></div>
     </section>
     <section>
-    <table id="restaurant-hours"></table>
-  </section>
+      <table id="restaurant-hours"></table>
+    </section>
     <!-- End map -->
+
+
+    <!-- START Make Review -->
+    <section id="form-container">
+      <h2 id="form-name">Add Review</h2>
+      <form id="review-form">
+        <label for="review-author">Author:</label>
+        <input id="review-author" name="name" type="text" />
+
+        <div class="rating-container">
+          <p>Rating:</p>
+          <select aria-label="Rate the restaurant from 1 to 5" id="rating_select" name="Rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <label for="review-comments">Comments:</label></br>
+        <textarea id="review-comments" name="insert your comment about the restaurant"></textarea>
+        <div id="form-error"></div>
+        <button class="submit-button" onclick="addReview()">Add Review</button>
+      </form>
+    </section>
+    <!-- END Make Review -->
+
+
     <!-- Beginning reviews -->
     <section id="reviews-container">
       <ul id="reviews-list"></ul>
