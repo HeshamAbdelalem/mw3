@@ -197,16 +197,16 @@ createRestaurantHTML = (restaurant) => {
 };
 
  changeFavClass = (el, fav) => {
-    if (fav) {
-      console.log('added to favorite');
-      el.classList.remove('not_fav');
-      el.classList.add('is_fav');
-      el.setAttribute('aria-label', 'remove as favorite');
-
-    } else {
+    if (!fav) {
       el.classList.remove('is_fav');
       el.classList.add('not_fav');
       el.setAttribute('aria-label', 'mark as favorite');
+
+    } else {
+      console.log('added to favorite');
+      el.classList.add('is_fav');
+      el.classList.remove('not_fav');
+      el.setAttribute('aria-label', 'remove as favorite');
     }
   };
 
