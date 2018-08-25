@@ -17,14 +17,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
  * Fetch all neighborhoods and set their HTML.
  */
 fetchNeighborhoods = () => {
-  DBHelper.fetchNeighborhoods((error, neighborhoods) => {
-    if (error) { // Got an error
-      console.error(error);
-    } else {
+  DBHelper.fetchNeighborhoods()
+    .then(neighborhoods => {
       self.neighborhoods = neighborhoods;
       fillNeighborhoodsHTML();
-    }
-  });
+    })
+    .catch(error => console.error(error));
 };
 
 /**
@@ -44,14 +42,12 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
  * Fetch all cuisines and set their HTML.
  */
 fetchCuisines = () => {
-  DBHelper.fetchCuisines((error, cuisines) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
+  DBHelper.fetchCuisines()
+    .then(cuisines => {
       self.cuisines = cuisines;
       fillCuisinesHTML();
-    }
-  });
+    })
+    .catch(error => console.log(error));
 };
 
 /**
@@ -102,14 +98,11 @@ updateRestaurants = () => {
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
+  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood)
+    .then(restaurants => {
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
-    }
-  });
+    }).catch(error => console.error(error)); //got an error
 };
 
 /**
@@ -168,50 +161,21 @@ createRestaurantHTML = (restaurant) => {
 
 
   // -------------------Start Favorite Button-------------------
-  const favorite = document.createElement('button');
-  favorite.innerHTML = '❤';
-  favorite.classList.add('fav_btn');
-
-  favorite.addEventListener('click', () => {
-
-    let isfavNow = false;
-
-    if (restaurant.is_favorite == "false" || restaurant.is_favorite == false) {
-      isfavNow = true;
-    } else {
-      isfavNow = false;
-    }
-    DBHelper.updateFavoriteStatus(restaurant.id, isfavNow);
-    restaurant.is_favorite = isfavNow;
-    changeFavClass(favorite, restaurant.is_favorite);
-    /*
-*/
-
-  });
-    //changeFavClass(favorite, restaurant.is_favorite);
-
-
-  li.append(favorite);
-
-
-  changeFavClass = (el, fav) => {
-    if (!fav) {
-      el.classList.remove('is_fav');
-      el.classList.add('not_fav');
-      el.setAttribute('aria-label', 'mark as favorite');
-
-    } else {
-      console.log('added to favorite');
-      el.classList.remove('not_fav');
-      el.classList.add('is_fav');
-      el.setAttribute('aria-label', 'remove as favorite');
-    }
+  const favourite = document.createElement('button');
+  favourite.innerHTML = '❤';
+  favourite.classList.add("fav_btn");
+  //change fav status on click
+  favourite.onclick = function() {
+    const isFavNow = !restaurant.is_favorite;
+    DBHelper.updateFavouriteStatus(restaurant.id, isFavNow);
+    restaurant.is_favorite = !restaurant.is_favorite;
+    changeFavClass(favourite, restaurant.is_favorite);
   };
+  changeFavClass(favourite, restaurant.is_favorite);
+  li.append(favourite);
 
 
-  // -------------------Start Favorite Button-------------------
-
-
+  // -------------------End Favorite Button-------------------
 
 
   const neighborhood = document.createElement('p');
@@ -231,6 +195,20 @@ createRestaurantHTML = (restaurant) => {
 
   return li;
 };
+
+ changeFavClass = (el, fav) => {
+    if (!fav) {
+      el.classList.remove('is_fav');
+      el.classList.add('not_fav');
+      el.setAttribute('aria-label', 'mark as favorite');
+
+    } else {
+      console.log('added to favorite');
+      el.classList.remove('not_fav');
+      el.classList.add('is_fav');
+      el.setAttribute('aria-label', 'remove as favorite');
+    }
+  };
 
 /**
  * Add markers for current restaurants to the map.
